@@ -1,0 +1,69 @@
+/* 
+===============================================================================
+Screen styles
+===============================================================================
+*/
+/* Core variables and mixins */
+/* Core CSS */
+/* Theme */
+/* 
+==============================================================================
+Color swatches
+==============================================================================
+*/
+/* 
+===============================================================================
+Typography
+===============================================================================
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Helvetica', sans-serif;
+  font-weight: 600;
+  text-transform: none;
+}
+.text-14rem {
+  font-size: 1.4rem;
+}
+.text-16rem {
+  font-size: 1.6rem;
+}
+.text-18rem {
+  font-size: 1.8rem;
+}
+.text-24rem {
+  font-size: 2.4rem;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-justify {
+  text-align: justify;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+/* 
+==============================================================================
+Variables
+==============================================================================
+*/
