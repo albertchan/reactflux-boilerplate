@@ -27,7 +27,7 @@ var src = {},
     watch = false;
 
 // Default task
-gulp.task('default', ['styles']);
+gulp.task('default', ['styles', 'browserify', 'watch']);
 
 // Build scripts with Browserify 
 gulp.task('browserify', function() {
@@ -37,6 +37,18 @@ gulp.task('browserify', function() {
     return b.bundle()
         .pipe(source(destFile))
         .pipe(gulp.dest(destFolder))
+});
+
+// Watch task
+gulp.task('watch', function() {
+    var b = watchify(sourceFile);
+    b.on('update', rebundle)
+
+    function rebundle() {
+        return b.bundle()
+        .pipe(source(destFile))
+        .pipe(gulp.dest(destFolder))
+    }
 });
 
 // CSS style sheets
