@@ -10,13 +10,14 @@ var argv       = require('minimist')(process.argv.slice(2)),
     browserify = require('browserify'),
     gulp       = require('gulp'),
     plugin     = require('gulp-load-plugins')(),
+    reactify   = require('reactify'),
     runTasks   = require('run-sequence'),
     source     = require('vinyl-source-stream'),
     watchify   = require('watchify');
 
 // file locations
-var destFolder = './js',
-    destFile   = './js/bundle.js',
+var destFile   = './bundle.js',
+    destFolder = './js',
     sourceFile = './js/app.js';
 
 // settings
@@ -28,9 +29,14 @@ var src = {},
 // Default task
 gulp.task('default', ['styles']);
 
-// Browserify
+// Build scripts with Browserify 
 gulp.task('browserify', function() {
-
+    var b = browserify();
+    b.transform(reactify);
+    b.add(sourceFile) 
+    return b.bundle()
+        .pipe(source(destFile))
+        .pipe(gulp.dest(destFolder))
 });
 
 // CSS style sheets
@@ -43,10 +49,25 @@ gulp.task('styles', function() {
             sourceMapBasepath: __dirname
         }))
         .on('error', console.error.bind(console))
+        .pipe(plugin.if(RELEASE, plugin.minifyCss()))
+        .pipe(plugin.if(RELEASE, plugin.rename(function(path) {
+            path.basename += '.min';
+        })))
         .pipe(gulp.dest('./css'));
 });
 
-// Build the app from source code
+// Build task
 gulp.task('build', function(cb) {
-    runTasks(['styles'], cb);
+    runTasks(['styles', 'browserify'], cb);
 });
+
+// Helpers
+function handleErrors() {
+    var args = Array.prototype.slice.call(arguments);
+    notify.onError({
+        title: "Compile Error",
+        message: "<%= error.message %>"
+    }).apply(this, args);
+    this.emit('end'); // Keep gulp from hanging on this task
+}
+
